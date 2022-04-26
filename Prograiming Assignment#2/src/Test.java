@@ -24,10 +24,10 @@ class runnable implements Runnable{
         }
 
         long finishTime = System.currentTimeMillis();
-        long differ = (long)((finishTime - test.startTime)/(1000));
+        long differ = (long)(finishTime - test.startTime)/1000;
 
         if(differ <= test.lifetimeProgram){
-            System.out.println(test.num + " created at Second " + differ + " / ");
+            System.out.println(test.num + " created at Second " + differ);
         }
 
         try{
@@ -60,9 +60,7 @@ public class Test implements PIDManager{
 
     }
 
-
     private Object obj = new Object();
-
 
     @Override
     public int getPID() {
@@ -120,8 +118,6 @@ public class Test implements PIDManager{
     }
 
 
-
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -152,13 +148,13 @@ public class Test implements PIDManager{
 
         for (int i=1; i<=threadNum; i++){
             long Time = System.currentTimeMillis();
-            long differ = (long)((Time-startTime)/(1000));
+            long differ = (Time-startTime)/1000;
 
             if(differ > lifetimeProgram){
                 break;
             }
             try{
-                Thread.sleep((int)(Math.random() * 1000));
+                Thread.sleep((long)(Math.random() * 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -172,7 +168,7 @@ public class Test implements PIDManager{
 
         while(true){
             long finishTime = System.currentTimeMillis();
-            long differ = (long)((finishTime - startTime)/(1000));
+            long differ = (finishTime - startTime)/1000;
 
             for(int i=0; i<arr.size(); i++){
                 arr.get(i).interrupt();

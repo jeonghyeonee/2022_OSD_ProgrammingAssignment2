@@ -1,5 +1,5 @@
 /**
- * An interface for a PID mamager.
+ * An interface for a PID manager.
  *
  * The range of allowable PID's is
  * MIN_PID .. MAX_PID (inclusive)
