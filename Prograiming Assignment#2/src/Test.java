@@ -94,7 +94,12 @@ public class Test implements Runnable, PIDManager{
         long differ = (long)((finishTime - startTime)/(1000));
 
         if(differ <= lifetimeProgram){
-            System.out.println(num + " created at Second " + differ + " / " + pid);
+            System.out.println(num + " created at Second " + differ + " / ");
+        }
+
+        try{
+            Thread.sleep(1000*lifetimeThread);
+        } catch (InterruptedException e) {
         }
 
         if(differ+lifetimeThread <= lifetimeProgram){
