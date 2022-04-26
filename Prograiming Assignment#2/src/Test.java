@@ -1,8 +1,50 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+class runnable implements Runnable{
+    Test test = new Test();
 
-public class Test implements Runnable, PIDManager{
+    public runnable(int num) {
+        test.num = num;
+    }
+
+    @Override
+    public void run() {
+        int pid = 0;
+
+        if (test.select == 1){
+            pid = test.getPID();
+            if (pid == -1){
+                System.out.println("Thread "+ test.num + " No pids are available");
+                return;
+            }
+        }
+        else{
+            pid = test.getPIDWait();
+        }
+
+        long finishTime = System.currentTimeMillis();
+        long differ = (long)((finishTime - test.startTime)/(1000));
+
+        if(differ <= test.lifetimeProgram){
+            System.out.println(test.num + " created at Second " + differ + " / ");
+        }
+
+        try{
+            Thread.sleep(1000 * test.lifetimeThread);
+        } catch (InterruptedException e) {
+        }
+
+        if(differ+test.lifetimeThread <= test.lifetimeProgram){
+            System.out.println(test.num + " destroyed at Second " + (differ + test.lifetimeThread));
+        }
+        test.releasePID(pid);
+
+    }
+}
+
+
+public class Test implements PIDManager{
 
     public static long startTime;
     public static int lifetimeProgram;
@@ -14,11 +56,13 @@ public class Test implements Runnable, PIDManager{
 
     int num;    // thread num
 
-    public Test(int num) {
-        this.num = num;
+    public Test() {
+
     }
 
+
     private Object obj = new Object();
+
 
     @Override
     public int getPID() {
@@ -75,39 +119,7 @@ public class Test implements Runnable, PIDManager{
 
     }
 
-    @Override
-    public void run() {
-        int pid = 0;
 
-        if (select == 1){
-            pid = getPID();
-            if (pid == -1){
-                System.out.println("Thread "+ num + " No pids are available");
-                return;
-            }
-        }
-        else{
-            pid = getPIDWait();
-        }
-
-        long finishTime = System.currentTimeMillis();
-        long differ = (long)((finishTime - startTime)/(1000));
-
-        if(differ <= lifetimeProgram){
-            System.out.println(num + " created at Second " + differ + " / ");
-        }
-
-        try{
-            Thread.sleep(1000*lifetimeThread);
-        } catch (InterruptedException e) {
-        }
-
-        if(differ+lifetimeThread <= lifetimeProgram){
-            System.out.println(num + " destroyed at Second " + (differ + lifetimeThread));
-        }
-        releasePID(pid);
-
-    }
 
 
     public static void main(String[] args) {
@@ -151,7 +163,9 @@ public class Test implements Runnable, PIDManager{
                 e.printStackTrace();
             }
 
-            Thread t = new Thread(new Test(i));
+            runnable r = new runnable(i);
+            Thread t = new Thread(r);
+
             arr.add(t);
             t.start();
         }
