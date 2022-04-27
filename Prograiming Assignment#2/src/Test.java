@@ -24,7 +24,7 @@ class runnable implements Runnable{
         }
 
         long finishTime = System.currentTimeMillis();
-        long differ = (long)(finishTime - test.startTime)/1000;
+        long differ = (finishTime - test.startTime)/1000;
 
         if(differ <= test.lifetimeProgram){
             System.out.println(test.num + " created at Second " + differ);
@@ -92,7 +92,6 @@ public class Test implements PIDManager{
                 try{
                     obj.wait();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
             semaphore--;
@@ -156,7 +155,6 @@ public class Test implements PIDManager{
             try{
                 Thread.sleep((long)(Math.random() * 1000));
             } catch (InterruptedException e) {
-                e.printStackTrace();
             }
 
             runnable r = new runnable(i);
