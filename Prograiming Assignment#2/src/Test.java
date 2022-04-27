@@ -27,7 +27,7 @@ class runnable implements Runnable{
         long differ = (finishTime - test.startTime)/1000;
 
         if(differ <= test.lifetimeProgram){
-            System.out.println(test.num + " created at Second " + differ);
+            System.out.println(test.num + " created at Second " + differ );
         }
 
         try{
@@ -180,9 +180,6 @@ public class Test implements PIDManager{
 
         System.exit(0);
 
-
-
     }
-
 
 }
